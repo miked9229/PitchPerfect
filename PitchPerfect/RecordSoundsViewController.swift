@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import AVFoundation
 
 class RecordSoundsViewController: UIViewController {
 
     
     @IBOutlet weak var stopRecordingButton: UIButton!
     @IBOutlet weak var recordingButton: UIButton!
-    
     @IBOutlet weak var recordingLabel: UILabel!
+    
+    var audioRecorder: AVAudioRecorder!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -36,6 +39,37 @@ class RecordSoundsViewController: UIViewController {
         print("Recording button pressed")
         stopRecordingButton.enabled = true
         recordingButton.enabled = false
+        
+        
+        // Declares a place in the User's home directory
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+    
+        print(dirPath)
+        // Declares a sound file
+        let recordingName = "recordedVoice.wav"
+    
+        let pathArray = [dirPath, recordingName]
+        
+        // Grabs the file path
+        let filePath = NSURL.fileURLWithPathComponents(pathArray)
+    
+    
+        // Declares an AVAudioSession
+        
+        let session = AVAudioSession.sharedInstance()
+        
+       // Tries to set a cateogry
+        try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        
+        // tries to put the audio recorder at the file path
+        try! audioRecorder = AVAudioRecorder(URL: filePath!, settings: [:])
+        
+        
+        
+        // records the audio.
+        audioRecorder.meteringEnabled = true
+        audioRecorder.prepareToRecord()
+        audioRecorder.record()
     }
 
 
