@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class RecordSoundsViewController: UIViewController {
+class RecordSoundsViewController: UIViewController , AVAudioRecorderDelegate {
 
     
     @IBOutlet weak var stopRecordingButton: UIButton!
@@ -53,7 +53,7 @@ class RecordSoundsViewController: UIViewController {
         // Grabs the file path
         let filePath = NSURL.fileURLWithPathComponents(pathArray)
     
-    
+        print(filePath)
         // Declares an AVAudioSession
         
         let session = AVAudioSession.sharedInstance()
@@ -67,6 +67,7 @@ class RecordSoundsViewController: UIViewController {
         
         
         // records the audio.
+        audioRecorder.delegate = self
         audioRecorder.meteringEnabled = true
         audioRecorder.prepareToRecord()
         audioRecorder.record()
@@ -79,8 +80,23 @@ class RecordSoundsViewController: UIViewController {
         stopRecordingButton.enabled = false
         recordingButton.enabled = true
         
+        //Stopping the audo recording
+        audioRecorder.stop()
+        let audioSession = AVAudioSession.sharedInstance()
+        try! audioSession.setActive(false)
+        
     
     
+    }
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
+        print("AVAudioRecorder did finish recording")
+        
+        if (flag) {
+            //self.performSegueWithIdentifier("stopRecording", sender: audioRecorder.url)
+        } else {
+            print("AVAudioRecorder did finish recording")
+        }
+        
     }
 }
 
