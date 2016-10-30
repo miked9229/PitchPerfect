@@ -59,16 +59,12 @@ class PlaySoundsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("PlaysoundsViewController loaded")
         setupAudio()
 
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
     override func viewWillAppear(animated: Bool) {
         configureUI(.NotPlaying)
     }

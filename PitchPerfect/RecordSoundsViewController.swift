@@ -18,27 +18,15 @@ class RecordSoundsViewController: UIViewController , AVAudioRecorderDelegate {
     
     var audioRecorder: AVAudioRecorder!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
     
     override func viewWillAppear(animated: Bool) {
         stopRecordingButton.enabled = false
     }
     
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBAction func recordAudio(sender: AnyObject) {
     
-        recordingLabel.text = "Recording in progress"
-        print("Recording button pressed")
-        stopRecordingButton.enabled = true
-        recordingButton.enabled = false
+        configureRecordingButtons(true)
         
         
         // Declares a place in the User's home directory
@@ -75,10 +63,7 @@ class RecordSoundsViewController: UIViewController , AVAudioRecorderDelegate {
 
 
     @IBAction func stopRecording(sender: AnyObject) {
-        print("Stop recording button pressed")
-        recordingLabel.text = "Tap to record"
-        stopRecordingButton.enabled = false
-        recordingButton.enabled = true
+        configureRecordingButtons(false)
         
         //Stopping the audo recording
         audioRecorder.stop()
@@ -106,6 +91,13 @@ class RecordSoundsViewController: UIViewController , AVAudioRecorderDelegate {
         }
     }
     
+    
+    func configureRecordingButtons(isRecording: Bool) {
+        
+        recordingLabel.text = isRecording ? "Recording in progress" : "Tap to record"
+        recordingButton.enabled = isRecording ? false : true
+        stopRecordingButton.enabled = isRecording ? true: false
+    }
     
 }
 
